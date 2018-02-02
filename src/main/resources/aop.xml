@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<bean id="helloWorldImpl1" class="com.baidu.jiaotong.atom.aop.HelloWorldImpl1"></bean>
+	<bean id="helloWorldImpl2" class="com.baidu.jiaotong.atom.aop.HelloWorldImpl2"></bean>
+	<bean id="timeHandler" class="com.baidu.jiaotong.atom.aop.TimeHandler"></bean>
+	<bean id="logHandler" class="com.baidu.jiaotong.atom.aop.LogHandler"></bean>
+
+	<aop:config>
+		<aop:aspect id="time" ref="timeHandler" order="1">
+			<aop:pointcut id="addTime"
+				expression="execution(* com.baidu.jiaotong.atom.aop.HelloWorld.*(..))" />
+			<aop:before method="printTime" pointcut-ref="addTime" />
+			<aop:after method="printTime" pointcut-ref="addTime" />
+		</aop:aspect>
+		<aop:aspect id="log" ref="logHandler" order="2">
+			<aop:pointcut id="printLog"
+				expression="execution(* com.baidu.jiaotong.atom.aop.HelloWorld.*(..))" />
+			<aop:before method="LogBefore" pointcut-ref="printLog" />
+			<aop:after method="LogAfter" pointcut-ref="printLog" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>
